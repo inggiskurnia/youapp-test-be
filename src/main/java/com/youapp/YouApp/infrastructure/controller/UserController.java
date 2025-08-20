@@ -4,6 +4,7 @@ import com.youapp.YouApp.common.response.ApiResponse;
 import com.youapp.YouApp.infrastructure.dto.LoginRequestDTO;
 import com.youapp.YouApp.infrastructure.dto.RegisterRequestDTO;
 import com.youapp.YouApp.service.LoginUsecase;
+import com.youapp.YouApp.service.LogoutUsecase;
 import com.youapp.YouApp.service.RegisterUsecase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,12 @@ public class UserController {
 
     private final RegisterUsecase registerUsecase;
     private final LoginUsecase loginUsecase;
+    private final LogoutUsecase logoutUsecase;
 
-    public UserController(RegisterUsecase registerUsecase, LoginUsecase loginUsecase) {
+    public UserController(RegisterUsecase registerUsecase, LoginUsecase loginUsecase, LogoutUsecase logoutUsecase) {
         this.registerUsecase = registerUsecase;
         this.loginUsecase = loginUsecase;
+        this.logoutUsecase = logoutUsecase;
     }
 
     @PostMapping("/register")
@@ -32,5 +35,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO requestDTO){
         return ApiResponse.successfulResponse("Successfully create new user", loginUsecase.loginUser(requestDTO));
+    }
+
+    @PostMapping("logout")
+    public ResponseEntity<?> logoutUser(){
+        logoutUsecase.logoutUser();
+        return ApiResponse.successfulResponse("Logout user success !");
     }
 }
