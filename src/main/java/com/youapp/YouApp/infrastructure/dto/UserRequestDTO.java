@@ -20,6 +20,6 @@ public class UserRequestDTO {
 
     private OffsetDateTime birthday;
     private BigDecimal height;
-    private BigDecimal wight;
+    private BigDecimal weight;
     private List<Interest> interest;
 }
