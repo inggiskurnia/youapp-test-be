@@ -42,24 +42,4 @@ public class TokenGeneratorUsecaseImpl implements TokenGeneratorUsecase {
 
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
-
-    @Override
-    public String generateRefreshToken(Authentication authentication) {
-        Instant now = Instant.now();
-        long expiry = 86400L;
-
-        String email = authentication.getName();
-        User user = userRepository.findByEmailIgnoreCase(email).orElseThrow(()-> new UserNotFoundExeption("User with email " + email + " not found !"));
-
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")
-                .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiry))
-                .subject(email)
-                .claim("userId", user.getUserId())
-                .claim("tokenType", "refresh")
-                .build();
-
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    }
 }
